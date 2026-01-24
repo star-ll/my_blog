@@ -1,8 +1,7 @@
 ---
-{"publish":true,"created":"2025-09-29T20:29:26.000+08:00","modified":"2026-01-24T13:38:22.639+08:00","cssclasses":""}
+{"publish":true,"created":"2025-09-29T20:29:26.000+08:00","modified":"2026-01-24T20:22:11.369+08:00","cssclasses":""}
 ---
 
-# 深入浏览器引擎 III：Chromium分层合成 vs Firefox WebRender的GPU革命
 ## 渲染管线
 
 将 HTML 从源代码转化成屏幕像素这一过程称为渲染管线，不同渲染引擎的实现方式有所区别，但是大体上都可以分为五个步骤：

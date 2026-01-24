@@ -1,8 +1,7 @@
 ---
-{"publish":true,"created":"2025-08-19T21:16:17.569+08:00","modified":"2026-01-24T13:38:17.600+08:00","cssclasses":""}
+{"publish":true,"created":"2025-08-19T21:16:17.569+08:00","modified":"2026-01-24T20:25:17.096+08:00","cssclasses":""}
 ---
 
-# 深入浏览器引擎 II：HTML 解析全流程——从字节流到 DOM 构建
 ## HTML解析器
 
 前端的核心在于 HTML、CSS 和 JavaScript，这三者共同构成了现代前端技术体系。其中，HTML 作为入口文件通常首先被浏览器请求加载，因此，浏览器渲染页面的首要任务就是解析 HTML 文件。无论浏览器采用何种渲染引擎，都需要遵循 HTML 规范。按照 HTML 解析器的规范，HTML 解析器会将 HTML 字节流转换为 DOM 树，这一过程主要经历了以下步骤：
@@ -25,6 +24,7 @@
 |  Windows  |  `\r\n`  |  使用 CRLF（Carriage Return + Line Feed，回车+换行）表示换行。ASCII 编码为 13 和 10 的组合。  |
 |  macOS (旧版)  |  `\r`  |  早期的 macOS（基于经典 Mac OS）使用 CR（Carriage Return，回车符）表示换行。ASCII 编码为 13。  |
 |  macOS (现代)  |  `\n`  |  现代 macOS（基于 Unix 的 macOS X 及之后版本）与 Linux 一致，使用 LF 表示换行。  |
+
 
 HTML规范中对规范换行符的操作很简单，主要是以下步骤：
 
@@ -162,6 +162,7 @@ HTML 规范将 script 分为**经典Script（classic script）** 和**模块Scri
 | A link element of this type（指具有`rel=stylesheet`的`<link>`元素） | 指具有`rel=stylesheet`的`<link>`元素（即CSS样式表链接） |
 | created by its node document 's parser（由node文档解析器创建）        | 由 HTML 解析器创建的 Link 元素节点，而不是 JS 动态插入的。     |
 | implicitly potentially render-blocking（隐式潜在的渲染阻塞）           | 可能（但不一定）阻塞渲染，需要浏览器按规则处理                   |
+
 这句话的意思是：**当文档解析器在解析HTML时遇到 `<link rel="stylesheet">` 元素，这个样式表资源会被视为潜在的渲染阻塞资源，浏览器可能需要暂停渲染直到该样式表加载并解析完成**。
 
 此外，[HTML 规范]([HTML Standard](https://html.spec.whatwg.org/#interactions-of-styling-and-scripting)) 还明确了 `stylesheet` 阻塞 script 执行的场景，原文如下：
