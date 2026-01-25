@@ -1,5 +1,5 @@
 ---
-{"publish":true,"created":"2025-08-19T21:16:17.560+08:00","modified":"2026-01-24T20:40:07.736+08:00","cssclasses":""}
+{"publish":true,"created":"2025-08-19T21:16:17.560+08:00","modified":"2026-01-25T14:40:13.732+08:00","cssclasses":""}
 ---
 
 ## 浏览器篇
@@ -24,7 +24,7 @@
 
 - [[框架篇/React/深入React原理I：设计哲学]]
 - [[框架篇/React/深入React原理II：调度系统与优先级模型]]
-- 深入React原理III：Fiber架构革命（todo）
+- 深入React原理III：Fiber架构革命（草稿）
 - 深入React原理IV：Hook原理和调和（todo）
 - 深入 React 原理 V：React 19 和未来展望（todo）
 
@@ -40,7 +40,7 @@
 ## 性能篇
 
 - [[性能篇/前端性能优化六层模型]]
-- 微前端 + Vue Devtools 场景下内存泄漏排查：V8 垃圾回收原理和 Chrome Devtools 进阶用法（todo）
+- [[性能篇/微前端场景下 Vue Devtools 导致的内存泄漏排查：一次 4GB 内存爆炸的深度追踪]]
 
 ## 后端篇
 
