@@ -1,5 +1,5 @@
 ---
-{"publish":true,"created":"2025-08-19T21:16:17.560+08:00","modified":"2026-01-31T16:59:39.947+08:00","cssclasses":""}
+{"publish":true,"created":"2025-08-19T21:16:17.560+08:00","modified":"2026-01-31T17:03:03.470+08:00","cssclasses":""}
 ---
 
 ## 浏览器篇
@@ -24,7 +24,7 @@
 
 - [[框架篇/React/深入React原理I：设计哲学]]
 - [[框架篇/React/深入React原理II：调度系统与优先级模型]]
-- 深入React原理III：Fiber架构革命（草稿）
+- [[框架篇/React/深入React原理III：Fiber架构革命]]
 - 深入React原理IV：Hook原理和调和（todo）
 - 深入 React 原理 V：React 19 和未来展望（todo）
 
