@@ -1,12 +1,12 @@
 ---
-{"publish":true,"created":"2025-08-19T21:16:17.569+08:00","modified":"2026-01-24T20:25:17.096+08:00","cssclasses":""}
+{"publish":true,"created":"2025-08-19T21:16:17.569+08:00","modified":"2026-01-31T10:31:45.774+08:00","cssclasses":""}
 ---
 
 ## HTML解析器
 
 前端的核心在于 HTML、CSS 和 JavaScript，这三者共同构成了现代前端技术体系。其中，HTML 作为入口文件通常首先被浏览器请求加载，因此，浏览器渲染页面的首要任务就是解析 HTML 文件。无论浏览器采用何种渲染引擎，都需要遵循 HTML 规范。按照 HTML 解析器的规范，HTML 解析器会将 HTML 字节流转换为 DOM 树，这一过程主要经历了以下步骤：
 
-![image.png](https://note-cdn.tongyi.com/note/dc5e53bad7c4b3a57997f8224c4fb9fd/iqDE4y4tFbXXsMcw/8cb83b64629049ae9a25018af8165992/image.png)
+![[浏览器篇/attachmens/Pasted image 20260131103144.png]]
 
 ### 字节流
 

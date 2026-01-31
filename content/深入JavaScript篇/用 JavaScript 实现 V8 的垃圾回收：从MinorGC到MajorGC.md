@@ -1,5 +1,5 @@
 ---
-{"publish":true,"created":"2026-01-21T16:38:29.000+08:00","modified":"2026-01-24T20:30:25.617+08:00","cssclasses":""}
+{"publish":true,"created":"2026-01-30T15:31:31.000+08:00","modified":"2026-01-30T15:31:31.000+08:00","cssclasses":""}
 ---
 
 ## 引言
@@ -92,19 +92,138 @@ identifierMap.set('a', memory_id) // 记录关系
 
 ### 页
 
+页是堆内存的基本管理单位，类似于操作系统中的内存页。在 V8 中，页是固定大小的内存块（通常为 1MB），用于高效管理内存分配和回收。
 
+#### 页的作用：
+
+1. **内存分配单元**：V8 以页为单位向操作系统申请内存
+2. **内存隔离**：不同代的垃圾回收策略可以在不同页上实施
+3. **内存整理**：以页为单位进行内存碎片整理
+4. **快速分配**：通过空闲列表（free-list）在页内快速分配对象
+#### 页的结构：
+
+- **内存空间**：连续的内存块，存储对象数据
+- **分配指针**：指向当前空闲内存位置
+- **代际信息**：标记页属于新生代还是老生代
+- **元数据**：存储页的使用情况和回收状态
 ### 用 JS 实现一个页
 
+```js
+let pageId = 1;
+class Page {
+  id = pageId++;
+  MAX_PAGE_SIZE = 1024;
+  HALF_PAGE_SIZE = Math.floor(this.MAX_PAGE_SIZE / 2);
 
+  space = new Array(this.MAX_PAGE_SIZE);
+  allocPtr = 0;
+
+  fromStart = 0;
+  fromEnd = this.HALF_PAGE_SIZE - 1;
+  toStart = this.HALF_PAGE_SIZE;
+  toEnd = this.MAX_PAGE_SIZE - 1;
+
+  identifierMap = new Map(); // 标识符与变量内存地址映射表
+
+  hasFreeSpaceSize(size) {
+    return size > 0 && this.fromEnd - this.allocPtr + 1 >= size;
+  }
+
+  alloc(identifier, size, data, scoped) {
+    if (!this.hasFreeSpaceSize(size)) {
+      return null;
+    }
+
+    const start = this.allocPtr;
+
+    for (let i = start; i < start + size; i++) {
+      this.space[i] = {
+        identifier,
+        data,
+        scoped,
+        gcCount: 0,
+      };
+      this.allocPtr++;
+    }
+
+    this.identifierMap.set(identifier, start); // 记录标识符与变量内存地址的映射关系
+
+    return this.space[start];
+  }
+
+  dealloc(start, size) {
+    if (!this.space[start]) {
+      return;
+    }
+
+    const { data, identifier } = this.space[start];
+
+    for (let i = start; i < start + size; i++) {
+      this.space[i] = undefined;
+    }
+
+    this.identifierMap.delete(identifier);
+  }
+}
+```
 ## V8 垃圾回收
 
-### 代际假说
+大部分文章谈及到垃圾回收都只谈到标记清除法和引用计数法，但是实际上，现代浏览器引擎为 GC 做了大量优化工作。
 
-### 半空间
+关于 V8 引擎 GC 整个流程，可以参考[[浏览器篇/深入浏览器引擎 IV：V8 垃圾回收机制]]
 
-### 标记清除法
+### 代际假说（Generational Hypothesis）
 
+代际假说是现代垃圾回收器的理论基础，它基于一个假设：大部分对象都是“朝生暮死”的，也就是说大部分对象的存活时间很短。
 
+基于这个假说，V8 将堆内存分为两代：
+
+- **新生代（New Space）**：存放新创建的对象，采用高效的复制算法
+- **老生代（Old Space）**：存放存活时间较长的对象，采用标记清除/标记整理算法
+
+而 V8 引擎也根据这个假说设置了主副两个垃圾回收器：
+- 副 GC：专门负责回收新生代。
+- 主 GC：回收所有死对象。
+
+基于我们前面的假说，大部分对象创建后很快就会死掉，需要被回收，也就是说新生代回收较为频繁，因此 V8 专门提供一个副 GC 去回收新生代。主 GC 回收所有死对象，只有达到一定限制条件才会执行。
+
+### 半空间（Semi-Space）
+
+新生代采用半空间复制算法（Cheney's algorithm），也就是将新生代空间分为两个相等的半空间**from-space** 和 **to-space**，新对象总是分配在 from-space，另一半留空，当垃圾回收时：
+1.  标记 from-space 中的存活对象
+2. 将存活对象复制到 to-space
+3. 清空 from-space
+4. 交换 from-space 和 to-space 的角色
+5. 更新标识符指针
+
+这种方法由于只处理存活对象，因此回收速度快，且自动处理内存碎片问题，但是缺点是需要复制对象，且会浪费一半的内存空间
+
+### 标记清除法（Mark-Sweep）
+
+老生代采用标记清除算法：
+
+1. **标记阶段**：从根对象（全局对象、执行上下文等）开始，递归标记所有可达对象
+2. **清除阶段**：遍历整个堆，回收未被标记的对象
+3. **整理阶段（可选）**：移动对象以消除内存碎片
+
+为了解决标记清除的碎片问题，V8 还使用**标记整理算法**：
+
+- 在标记完成后，将存活对象向一端移动
+- 更新所有指向移动对象的引用
+- 一次性回收所有空闲内存
+### 增量标记和并发标记
+
+为避免长时间停顿，V8 采用许多优化策略，例如：
+
+1. **增量标记**：将标记过程分成多个小步骤，与 JS 执行交替进行
+2. **并发标记**：在后台线程进行标记，不阻塞主线程
+3. **空闲时间 GC**：在主线程空闲时执行 GC
+4. **三色标记法**：
+    - 白色：未访问
+    - 灰色：已访问，但子对象未访问
+    - 黑色：已访问，且子对象已访问
+
+这些优化使得 V8 可以在几百毫秒内完成数 GB 堆的垃圾回收，用户几乎无感知。
 ## 最终代码
 ```js
 let pageId = 1;
