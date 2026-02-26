@@ -1,11 +1,12 @@
 ---
-{"publish":true,"created":"2025-08-19T21:16:17.570+08:00","modified":"2026-01-24T13:38:27.640+08:00","cssclasses":""}
+{"publish":true,"created":"2026-02-13T10:15:17.000+08:00","modified":"2026-02-13T10:15:17.000+08:00","cssclasses":""}
 ---
 
 # 同步：执行栈与执行上下文
 ## 执行栈与执行上下文（Execution Contexts and Execution Contexts Stack）
 
 **JavaScript 执行上下文（Execution Contexts）是 JavaScript 运行时的一种环境概念，包含当前代码运行的所有信息，执行栈（也称调用栈，全称执行上下文栈）时一种后进先出的数据结构，用于管理执行上下文，其栈顶生当前正在运行的执行上下文，两者共同配合实现 JavaScript 代码的运行。**
+
 执行上下文有三种类型：
 
 | 类型         | 描述                                                      |
@@ -15,6 +16,7 @@
 | eval 执行上下文 | eval 执行时创建 eval 执行上下文，由于安全性问题，其使用的比较少。                  |
 
 以一个简单的 JS 代码为例：
+
 ```html
 <script>
 function fn(a){
@@ -327,6 +329,8 @@ Nodejs 的事件循环机制和浏览器中的事件循环机制有很大的不�
 | poll             | 检索新的 I/O 事件；执行 I/O 相关回调（几乎所有回调，除了关闭回调、由定时器调度的回调和 `setImmediate()`）；node 将在适当的时候在此处阻塞。 |
 | check            | 执行 `setImmediate` 的回调                                                                 |
 | close callback   | 一些关闭回调，例如 `socket.on('close', ...)`                                                   |
+|                  |                                                                                       |
+
 **timers**
 timers 阶段会执行定时器到达阈值的回调，需要注意的是，无论是浏览器环境还是 Nodejs 中，定时器都不是一定按照设置的阈值准时执行回调的，这主要是因为定时器回调的执行可能会被阻塞。
 
