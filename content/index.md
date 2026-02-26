@@ -1,6 +1,8 @@
 ---
-{"publish":true,"created":"2026-02-17T19:08:11.350+08:00","modified":"2026-02-19T16:32:09.712+08:00","cssclasses":""}
+{"publish":true,"aliases":"余烬的博客","created":"2026-02-17T19:08:11.350+08:00","modified":"2026-02-26T15:21:51.019+08:00","cssclasses":""}
 ---
+
+>  Github: https://github.com/star-ll
 
 ## 浏览器篇
 
