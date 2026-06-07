@@ -1,8 +1,6 @@
 ---
-{"publish":true,"created":"2026-06-07T09:12:38.382+08:00","modified":"2026-06-07T10:53:57.361+08:00","cssclasses":""}
+{"publish":true,"created":"2026-06-07T09:12:38.382+08:00","modified":"2026-06-07T11:00:17.846+08:00","cssclasses":""}
 ---
-
-# AI Coding 不会拉开差距，Harness 才会
 
 ## 引言
 
@@ -73,10 +71,10 @@ LLM
 
 在 AI Coding 场景中，一个最基础的 Harness 通常包含三个部分：
 
-|      | 前馈传感器 | LLM | 反馈传感器 |
-|--------|--------|--------|--------|
-| 作用 | 前置调节 | 核心推理 | 反馈纠正 |
-| 常见代表 | AGENTS. Md、CLAUDE. Md | Claude Code、Codex、Cursor | ESLint、Playwright、AI Review |
+|      | 前馈传感器               | LLM                      | 反馈传感器                           |
+| ---- | ------------------- | ------------------------ | ------------------------------- |
+| 作用   | 前置调节                | 核心推理                     | 反馈纠正                            |
+| 常见代表 | AGENTS.md、CLAUDE.md | Claude Code、Codex、Cursor | ESLint、TSC、Playwright、AI Review |
 
 对应流程如下：
 
@@ -203,7 +201,7 @@ C -->|发现问题| A
 
 ## Token 成本控制
 
-很多团队喜欢把所有规则全部塞进 AGENTS. Md。
+很多团队喜欢把所有规则全部塞进 AGENTS.md。
 
 结果：
 
@@ -265,7 +263,7 @@ ESLint
 
 只要你在使用：
 
-- AGENTS. Md
+- AGENTS.md
 - ESLint
 - Prettier
 
@@ -369,32 +367,6 @@ rules/
 ...
 
 ```
-
-### 目录级规范
-
-例如：
-
-```text
-components/
-    AGENTS.md
-
-hooks/
-    AGENTS.md
-
-utils/
-    AGENTS.md
-```
-
-告诉模型：
-
-这个目录：
-
-- 是干什么的
-- 有哪些工具
-- 有哪些约束
-- 应该如何使用
-
-这样模型无需扫描整个项目。
 
 ## 反馈：沉淀规则
 
