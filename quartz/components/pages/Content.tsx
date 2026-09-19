@@ -1,5 +1,10 @@
-import { ComponentChildren } from "preact"
-import { htmlToJsx } from "../../util/jsx"
+import ArticlePage from "./ArticlePage"
+import articleStyle from "../styles/articlePage.scss"
+// @ts-ignore
+import articleScript from "../scripts/article.inline"
+import Search from "../Search"
+import Darkmode from "../Darkmode"
+import { concatenateResources } from "../../util/resources"
 import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "../types"
 import HomePage from "./HomePage"
 import NotesPage from "./NotesPage"
@@ -7,7 +12,7 @@ import SiteContentPage from "./SiteContentPage"
 import { isSitePage, sitePages } from "./sitePages"
 
 const Content: QuartzComponent = (props: QuartzComponentProps) => {
-  const { fileData, tree } = props
+  const { fileData } = props
   if (fileData.slug === "index") {
     return <HomePage {...props} />
   }
@@ -16,12 +21,17 @@ const Content: QuartzComponent = (props: QuartzComponentProps) => {
   }
   if (isSitePage(fileData.slug)) return <SiteContentPage {...props} />
 
-  const content = htmlToJsx(fileData.filePath!, tree) as ComponentChildren
-  const classes: string[] = fileData.frontmatter?.cssclasses ?? []
-  const classString = ["popover-hint", ...classes].join(" ")
-  return <article class={classString}>{content}</article>
+  return <ArticlePage {...props} />
 }
 
-Content.css = HomePage.css
+const search = Search({ enablePreview: true })
+const darkmode = Darkmode()
+Content.css = concatenateResources(HomePage.css, articleStyle, search.css, darkmode.css)
+Content.beforeDOMLoaded = concatenateResources(search.beforeDOMLoaded, darkmode.beforeDOMLoaded)
+Content.afterDOMLoaded = concatenateResources(
+  search.afterDOMLoaded,
+  darkmode.afterDOMLoaded,
+  articleScript,
+)
 
 export default (() => Content) satisfies QuartzComponentConstructor
