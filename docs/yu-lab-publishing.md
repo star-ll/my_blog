@@ -11,7 +11,11 @@ Homepage selections are resolved against Quartz's actual article slugs.
 Maintain `site-now.md` in Obsidian and publish it through Quartz Syncer to `content/site-now.md`.
 Obsidian is the source of truth. Keep the five site files in your publishing selection, since your current sync process deletes remote Markdown absent locally.
 
-Edit `updated` (a quoted YYYY-MM-DD date) and the `items` list in source mode. Each item has `title`, `description`, `status`, and `active` (boolean). The homepage reads these fields when rebuilt. Deleting all items leaves the section empty; deleting the file does not break the build.
+Use ordinary Markdown in the body: `##` for each item's title, paragraphs for its description, and a blockquote (`>`) for its status. The homepage reads these sections at build time. `进行中` or `In progress` gives the active indicator; other statuses use a neutral indicator. Text before the first item is ignored. Do not append unrelated paragraphs inside an item.
+
+The actual Syncer-published file dropped custom `items` and `updated` properties. Use the preserved `modified` property for the update date instead. Existing frontmatter items remain supported for users whose publishing tools preserve them. Missing content shows “近况整理中。” rather than a blank section.
+
+Notes displays each article's modified date, using Quartz's existing priority: frontmatter, Git history, then filesystem. For meaningful editorial dates, maintain `modified` locally; sync metadata may otherwise reflect the last file edit rather than a substantive article revision.
 
 ## Sync boundaries
 

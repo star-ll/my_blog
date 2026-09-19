@@ -2,6 +2,7 @@
 {"publish":true,"aliases":"now","title":"Now","description":"最近正在构建、学习和思考的事情。","created":"2026-09-19T16:14:02.142+08:00","modified":"2026-09-19","cssclasses":""}
 ---
 
+## 用 Rust 构建轻量 Agent
 
 ## 用 Rust 构建轻量 Agent
 
