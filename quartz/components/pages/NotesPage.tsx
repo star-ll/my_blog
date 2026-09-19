@@ -35,7 +35,7 @@ const NotesPage: QuartzComponent = (props) => {
         </h1>
         <p class="notes-intro">把理解写下来，让思考更清晰。</p>
         <p class="notes-description">
-          关于 AI 系统、Web 内部机制与软件设计的深入探索。记录实现，也记录设计背后的权衡。
+          关注 AI 系统、Web 内部机制与软件设计的深入探索。记录实现，也记录设计背后的权衡。
         </p>
         <div class="notes-summary">
           {posts.length} NOTES <span>·</span> {categories.length} TOPICS
