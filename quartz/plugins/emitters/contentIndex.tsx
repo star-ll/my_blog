@@ -1,3 +1,5 @@
+import { pageSeo, pageUrl } from "../../util/seo"
+import { isSitePage } from "../../components/pages/sitePages"
 import { Root } from "hast"
 import { GlobalConfiguration } from "../../cfg"
 import { getDate } from "../../components/Date"
@@ -40,10 +42,9 @@ const defaultOptions: Options = {
 }
 
 function generateSiteMap(cfg: GlobalConfiguration, idx: ContentIndexMap): string {
-  const base = cfg.baseUrl ?? ""
   const createURLEntry = (slug: SimpleSlug, content: ContentDetails): string => `<url>
-    <loc>https://${joinSegments(base, encodeURI(slug))}</loc>
-    ${content.date && `<lastmod>${content.date.toISOString()}</lastmod>`}
+    <loc>${escapeHTML(pageUrl(cfg.baseUrl!, slug))}</loc>
+    ${content.date ? `<lastmod>${content.date.toISOString()}</lastmod>` : ""}
   </url>`
   const urls = Array.from(idx)
     .map(([slug, content]) => createURLEntry(simplifySlug(slug), content))
@@ -101,12 +102,13 @@ export const ContentIndex: QuartzEmitterPlugin<Partial<Options>> = (opts) => {
       const linkIndex: ContentIndexMap = new Map()
       for (const [tree, file] of content) {
         const slug = file.data.slug!
-        const date = getDate(ctx.cfg.configuration, file.data) ?? new Date()
+        const date = file.data.dates?.modified ?? getDate(ctx.cfg.configuration, file.data)
+        const seo = pageSeo(cfg, file.data)
         if (opts?.includeEmptyFiles || (file.data.text && file.data.text !== "")) {
           linkIndex.set(slug, {
             slug,
             filePath: file.data.relativePath!,
-            title: file.data.frontmatter?.title!,
+            title: seo.name,
             links: file.data.links ?? [],
             tags: file.data.frontmatter?.tags ?? [],
             content: file.data.text ?? "",
@@ -114,10 +116,17 @@ export const ContentIndex: QuartzEmitterPlugin<Partial<Options>> = (opts) => {
               ? escapeHTML(toHtml(tree as Root, { allowDangerousHtml: true }))
               : undefined,
             date: date,
-            description: file.data.description ?? "",
+            description: seo.description,
           })
         }
       }
+
+      yield write({
+        ctx,
+        slug: "robots" as FullSlug,
+        ext: ".txt",
+        content: `User-agent: *\nAllow: /\nSitemap: ${pageUrl(cfg.baseUrl!, "sitemap.xml")}\n`,
+      })
 
       if (opts?.enableSiteMap) {
         yield write({
@@ -131,7 +140,11 @@ export const ContentIndex: QuartzEmitterPlugin<Partial<Options>> = (opts) => {
       if (opts?.enableRSS) {
         yield write({
           ctx,
-          content: generateRSSFeed(cfg, linkIndex, opts.rssLimit),
+          content: generateRSSFeed(
+            cfg,
+            new Map([...linkIndex].filter(([slug]) => !isSitePage(slug))),
+            opts.rssLimit,
+          ),
           slug: (opts?.rssSlug ?? "index") as FullSlug,
           ext: ".xml",
         })
