@@ -1,3 +1,5 @@
+import { pageUrl } from "../../util/seo"
+import { escapeHTML } from "../../util/escape"
 import { FullSlug, isRelativeURL, resolveRelative, simplifySlug } from "../../util/path"
 import { QuartzEmitterPlugin } from "../types"
 import { write } from "./helpers"
@@ -20,13 +22,13 @@ async function* processFile(ctx: BuildCtx, file: VFile) {
       ctx,
       content: `
         <!DOCTYPE html>
-        <html lang="en-us">
+        <html lang="${ctx.cfg.configuration.locale}">
         <head>
-        <title>${ogSlug}</title>
-        <link rel="canonical" href="${redirUrl}">
+        <title>${escapeHTML(file.data.frontmatter?.title ?? ogSlug)}</title>
+        <link rel="canonical" href="${escapeHTML(pageUrl(ctx.cfg.configuration.baseUrl!, file.data.slug!))}">
         <meta name="robots" content="noindex">
         <meta charset="utf-8">
-        <meta http-equiv="refresh" content="0; url=${redirUrl}">
+        <meta http-equiv="refresh" content="0; url=${escapeHTML(redirUrl)}">
         </head>
         </html>
         `,
