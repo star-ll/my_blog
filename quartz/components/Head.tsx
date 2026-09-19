@@ -86,7 +86,14 @@ export default (() => {
         <meta name="description" content={description} />
         <meta name="generator" content="Quartz" />
 
-        {css.map((resource) => CSSResourceToStyleElement(resource, true))}
+        {css.map((resource) => {
+          // HTML may update before a cached index.css expires on GitHub Pages.
+          const versioned =
+            !resource.inline && /(?:^|\/)index\.css$/.test(resource.content)
+              ? { ...resource, content: `${resource.content}?v=${encodeURIComponent(ctx.buildId)}` }
+              : resource
+          return CSSResourceToStyleElement(versioned, true)
+        })}
         {js
           .filter((resource) => resource.loadTime === "beforeDOMReady")
           .map((res) => JSResourceToScriptElement(res, true))}
