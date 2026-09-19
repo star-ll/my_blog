@@ -2,11 +2,15 @@ import { ComponentChildren } from "preact"
 import { htmlToJsx } from "../../util/jsx"
 import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "../types"
 import HomePage from "./HomePage"
+import NotesPage from "./NotesPage"
 
 const Content: QuartzComponent = (props: QuartzComponentProps) => {
   const { fileData, tree } = props
   if (fileData.slug === "index") {
     return <HomePage {...props} />
+  }
+  if (fileData.slug === "writing") {
+    return <NotesPage {...props} />
   }
 
   const content = htmlToJsx(fileData.filePath!, tree) as ComponentChildren
