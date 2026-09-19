@@ -2,6 +2,7 @@ import { resolveRelative } from "../../util/path"
 import { QuartzComponent } from "../types"
 import SiteNav from "./SiteNav"
 import { isSitePage } from "./sitePages"
+import { Date as ArticleDate } from "../Date"
 
 const NotesPage: QuartzComponent = (props) => {
   const posts = props.allFiles.filter(
@@ -67,6 +68,11 @@ const NotesPage: QuartzComponent = (props) => {
                     href={resolveRelative(props.fileData.slug!, post.slug!)}
                   >
                     <div>
+                      {post.dates?.modified && (
+                        <div class="notes-entry-date">
+                          更新于 <ArticleDate date={post.dates.modified} locale="zh-CN" />
+                        </div>
+                      )}
                       <h3>{post.frontmatter?.title}</h3>
                       <p>
                         {String(post.frontmatter?.description ?? post.description ?? "").slice(

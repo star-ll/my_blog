@@ -36,10 +36,14 @@ const HomePage: QuartzComponent = (props: QuartzComponentProps) => {
     const file = props.allFiles.find((entry) => entry.slug === slug)
     return file?.slug ? [{ ...post, slug: file.slug }] : []
   })
-  const now = props.allFiles.find((entry) => entry.slug === sitePages.now)?.frontmatter
-  const nowItems = Array.isArray(now?.items)
-    ? now.items.filter((item) => item && typeof item.title === "string")
-    : []
+  const nowFile = props.allFiles.find((entry) => entry.slug === sitePages.now)
+  const now = nowFile?.frontmatter
+  const nowItems = nowFile?.nowItems?.length
+    ? nowFile.nowItems
+    : Array.isArray(now?.items)
+      ? now.items.filter((item) => item && typeof item.title === "string")
+      : []
+  const nowDate = String(now?.updated ?? now?.modified ?? "").slice(0, 10)
 
   return (
     <article class="home-page">
@@ -163,10 +167,11 @@ docs/
                 <p>{String(item.description ?? "")}</p>
                 <div>
                   <span class={`home-status${item.active === true ? " home-status-active" : ""}`} />
-                  {String(item.status ?? "In progress")} <time>{String(now?.updated ?? "")}</time>
+                  {String(item.status ?? "In progress")} <time>{nowDate}</time>
                 </div>
               </div>
             ))}
+            {nowItems.length === 0 && <p>近况整理中。</p>}
           </aside>
         </section>
 

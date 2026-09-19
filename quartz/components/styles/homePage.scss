@@ -1,5 +1,11 @@
 @use "../../styles/variables.scss" as *;
 
+.notes-entry-date {
+  margin-bottom: 10px;
+  color: var(--home-muted);
+  font: 400 0.75rem/1.6 var(--codeFont);
+}
+
 .site-content-heading {
   display: block;
   padding: 64px 0 38px;

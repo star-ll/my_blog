@@ -13,6 +13,13 @@ for (const page of ["index", "site-notes", "site-lab", "site-deco", "site-about"
     assert.match(html, /用 Rust 构建轻量 Agent/)
   } else if (page === "site-notes") {
     assert.match(html, /notes-archive/)
+    const entryCount = (html.match(/class="notes-entry internal"/g) ?? []).length
+    assert.ok(entryCount > 0)
+    assert.equal(
+      (html.match(/class="notes-entry-date"/g) ?? []).length,
+      entryCount,
+      "Every article needs an update date",
+    )
     assert.ok(!html.includes('class="graph"'), "Notes should not mount Graph")
     assert.ok(
       !html.match(/class="notes-entry internal"[^>]*href="[^\"]*site-/),
