@@ -1,10 +1,7 @@
 ---
-title: About
-description: 余烬，关注前端工程、Rust 与 AI Agent 的软件工程师。
-publish: true
-aliases:
-  - about
+{"publish":true,"aliases":"about","title":"About","description":"余烬，关注前端工程、Rust 与 AI Agent 的软件工程师。","created":"2026-09-19T15:53:50.752+08:00","modified":"2026-09-19T15:53:50.753+08:00","cssclasses":""}
 ---
+
 
 ## 你好，我是余烬
 
@@ -20,7 +17,7 @@ aliases:
 
 ## 通过构建理解原理
 
-我曾实现过 [[site-deco|Deco]]：一个借鉴 Vue 原理的 Web Components 框架。
+我曾实现过 [[site-deco\|Deco]]：一个借鉴 Vue 原理的 Web Components 框架。
 
 如今我更看重它作为学习与教学实验的价值。亲手连接响应式、渲染、调度和组件模型，让我更具体地理解框架设计中的边界与权衡。
 
@@ -36,8 +33,8 @@ aliases:
 
 ## 关于这里
 
-- [[site-notes|Notes]]：技术文章、原理探索与工程经验。
-- [[site-lab|Lab]]：用于学习和验证想法的项目与实验。
+- [[site-notes\|Notes]]：技术文章、原理探索与工程经验。
+- [[site-lab\|Lab]]：用于学习和验证想法的项目与实验。
 
 我希望这里既能呈现做出了什么，也能留下为什么这样做。
 

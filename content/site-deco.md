@@ -1,12 +1,9 @@
 ---
-title: Deco
-description: 为理解框架而构建框架，一个具有教学价值的 Web Components 实验。
-publish: true
-aliases:
-  - lab/deco
+{"publish":true,"aliases":"lab/deco","title":"Deco","description":"为理解框架而构建框架，一个具有教学价值的 Web Components 实验。","created":"2026-09-19T15:55:02.479+08:00","modified":"2026-09-19T15:55:02.479+08:00","cssclasses":""}
 ---
 
-[查看源码](https://github.com/star-ll/Deco) · [[site-lab|返回 Lab]]
+
+[查看源码](https://github.com/star-ll/Deco) · [[site-lab\|返回 Lab]]
 
 ## 为什么构建 Deco
 
