@@ -1,5 +1,5 @@
 ---
-{"publish":true,"aliases":"writing","title":"Notes","description":"关于 AI 系统、前端原理与软件设计的文章和学习记录。","created":"2026-09-19T15:55:26.761+08:00","modified":"2026-09-19T15:55:26.762+08:00","cssclasses":""}
+{"publish":true,"aliases":"writing","title":"Notes","description":"关注 AI 系统、前端原理与软件设计的文章和学习记录。","created":"2026-09-19T15:55:26.761+08:00","modified":"2026-09-19T16:15:45.222+08:00","cssclasses":""}
 ---
 
 
