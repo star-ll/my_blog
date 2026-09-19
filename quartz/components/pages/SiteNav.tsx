@@ -2,6 +2,7 @@ import { FullSlug, resolveRelative } from "../../util/path"
 import Darkmode from "../Darkmode"
 import Search from "../Search"
 import { QuartzComponent } from "../types"
+import { sitePages } from "./sitePages"
 
 const SiteSearch = Search({ enablePreview: true })
 const SiteDarkmode = Darkmode()
@@ -15,15 +16,25 @@ const SiteNav: QuartzComponent = (props) => {
       </a>
       <span class="home-mantra">Build · Learn · Share</span>
       <nav>
-        <a
-          href={link("writing")}
-          aria-current={props.fileData.slug === "writing" ? "page" : undefined}
-        >
-          Notes
-        </a>
-        <a href={link("lab")}>Lab</a>
-        <a href={`${link("index")}#about`}>About</a>
-        <a href="https://github.com/star-ll" class="external">
+        {[
+          { label: "Home", slug: sitePages.home },
+          { label: "Notes", slug: sitePages.notes },
+          { label: "Lab", slug: sitePages.lab },
+          { label: "About", slug: sitePages.about },
+        ].map(({ label, slug }) => (
+          <a
+            href={link(slug)}
+            aria-current={
+              props.fileData.slug === slug ||
+              (slug === sitePages.lab && props.fileData.slug === sitePages.deco)
+                ? "page"
+                : undefined
+            }
+          >
+            {label}
+          </a>
+        ))}
+        <a href="https://github.com/star-ll" class="external home-nav-github">
           GitHub
         </a>
         <SiteSearch {...props} />

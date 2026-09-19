@@ -1,7 +1,10 @@
 ---
-{"publish":true,"aliases":"lab","title":"Lab","description":"为理解问题而构建的项目与实验，记录实现，也记录权衡。","created":"2026-09-19T15:55:20.455+08:00","modified":"2026-09-19T15:55:20.455+08:00","cssclasses":""}
+title: Lab
+description: 为理解问题而构建的项目与实验，记录实现，也记录权衡。
+publish: true
+aliases:
+  - lab
 ---
-
 
 我习惯通过构建一个能够运行的系统，检验自己是否真正理解了它。
 
@@ -11,7 +14,7 @@
 
 现在，我更关注它的教学价值：通过一个可阅读、可运行的实现，讨论响应式、渲染、调度与组件设计之间的关系和取舍。
 
-- [[site-deco\|了解 Deco 的设计与定位]]
+- [[site-deco|了解 Deco 的设计与定位]]
 - [查看源码](https://github.com/star-ll/Deco)
 
 ## Rust Agent · 进行中的探索

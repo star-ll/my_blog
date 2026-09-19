@@ -1,5 +1,6 @@
 import { FilePath, FullSlug, resolveRelative, slugifyFilePath } from "../../util/path"
 import SiteNav from "./SiteNav"
+import { sitePages } from "./sitePages"
 import { QuartzComponent, QuartzComponentProps } from "../types"
 import style from "../styles/homePage.scss"
 
@@ -35,7 +36,7 @@ const HomePage: QuartzComponent = (props: QuartzComponentProps) => {
     const file = props.allFiles.find((entry) => entry.slug === slug)
     return file?.slug ? [{ ...post, slug: file.slug }] : []
   })
-  const now = props.allFiles.find((entry) => entry.slug === "now")?.frontmatter
+  const now = props.allFiles.find((entry) => entry.slug === sitePages.now)?.frontmatter
   const nowItems = Array.isArray(now?.items)
     ? now.items.filter((item) => item && typeof item.title === "string")
     : []
@@ -91,7 +92,7 @@ const HomePage: QuartzComponent = (props: QuartzComponentProps) => {
                 ))}
               </ul>
               <div class="home-actions">
-                <a class="home-button home-button-primary" href={link("lab/deco")}>
+                <a class="home-button home-button-primary" href={link(sitePages.deco)}>
                   Explore the case study
                 </a>
                 <a class="home-button" href="https://github.com/star-ll/Deco">
@@ -135,7 +136,7 @@ docs/
               <div class="home-section-label">
                 SELECTED NOTES <span aria-hidden="true" />
               </div>
-              <a href={link("writing")}>View all notes</a>
+              <a href={link(sitePages.notes)}>View all notes</a>
             </div>
             <div class="home-writing-list">
               {selected.map((post) => (

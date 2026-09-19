@@ -1,11 +1,14 @@
 import { resolveRelative } from "../../util/path"
 import { QuartzComponent } from "../types"
 import SiteNav from "./SiteNav"
+import { isSitePage } from "./sitePages"
 
 const NotesPage: QuartzComponent = (props) => {
   const posts = props.allFiles.filter(
     (file) =>
       file.slug &&
+      !isSitePage(file.slug) &&
+      !file.slug.startsWith("site-") &&
       !["index", "writing", "now", "lab"].includes(file.slug) &&
       !file.slug.startsWith("lab/") &&
       !file.slug.startsWith("tags/") &&
