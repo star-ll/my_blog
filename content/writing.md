@@ -1,5 +1,5 @@
 ---
-title: Writing
+title: Notes
 description: Technical essays and engineering notes across AI systems, browser internals, frameworks, architecture, and performance.
 publish: true
 created: 2026-09-19

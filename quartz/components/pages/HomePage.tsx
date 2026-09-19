@@ -1,11 +1,7 @@
-import { FullSlug, resolveRelative } from "../../util/path"
-import Darkmode from "../Darkmode"
-import Search from "../Search"
+import { FilePath, FullSlug, resolveRelative, slugifyFilePath } from "../../util/path"
+import SiteNav from "./SiteNav"
 import { QuartzComponent, QuartzComponentProps } from "../types"
 import style from "../styles/homePage.scss"
-
-const HomeSearch = Search({ enablePreview: true })
-const HomeDarkmode = Darkmode()
 
 const writing = [
   {
@@ -34,26 +30,19 @@ const writing = [
 const HomePage: QuartzComponent = (props: QuartzComponentProps) => {
   const { fileData } = props
   const link = (slug: string) => resolveRelative(fileData.slug!, slug as FullSlug)
+  const selected = writing.flatMap((post) => {
+    const slug = slugifyFilePath(`${post.slug}.md` as FilePath)
+    const file = props.allFiles.find((entry) => entry.slug === slug)
+    return file?.slug ? [{ ...post, slug: file.slug }] : []
+  })
+  const now = props.allFiles.find((entry) => entry.slug === "now")?.frontmatter
+  const nowItems = Array.isArray(now?.items)
+    ? now.items.filter((item) => item && typeof item.title === "string")
+    : []
 
   return (
     <article class="home-page">
-      <header class="home-nav" aria-label="Primary navigation">
-        <a class="home-brand" href={link("index")} aria-label="YU / LAB home">
-          YU / LAB
-        </a>
-        <span class="home-mantra">Build · Learn · Share</span>
-        <nav>
-          <a href={link("writing")}>Writing</a>
-          <a href={link("lab")}>Lab</a>
-          <a href="#about">About</a>
-          <a href="https://github.com/star-ll" class="external">
-            GitHub
-          </a>
-          <HomeSearch {...props} />
-          <span class="home-nav-divider" aria-hidden="true" />
-          <HomeDarkmode {...props} />
-        </nav>
-      </header>
+      <SiteNav {...props} />
 
       <main>
         <section class="home-hero" id="about">
@@ -144,12 +133,12 @@ docs/
           <div class="home-writing">
             <div class="home-section-heading">
               <div class="home-section-label">
-                SELECTED WRITING <span aria-hidden="true" />
+                SELECTED NOTES <span aria-hidden="true" />
               </div>
-              <a href={link("writing")}>View all posts</a>
+              <a href={link("writing")}>View all notes</a>
             </div>
             <div class="home-writing-list">
-              {writing.map((post) => (
+              {selected.map((post) => (
                 <a class="home-writing-item internal" href={link(post.slug)}>
                   <div class="home-writing-meta">
                     <strong>{post.category}</strong>
@@ -167,28 +156,16 @@ docs/
             <div class="home-section-label">
               NOW <span aria-hidden="true" />
             </div>
-            <div class="home-now-item">
-              <h3>Building lightweight agent systems in Rust</h3>
-              <p>
-                Exploring simple, reliable agent systems with stronger abstractions and real
-                experiments.
-              </p>
-              <div>
-                <span class="home-status home-status-active" />
-                In progress <time>SEP 19, 2026</time>
+            {nowItems.map((item) => (
+              <div class="home-now-item">
+                <h3>{item.title}</h3>
+                <p>{String(item.description ?? "")}</p>
+                <div>
+                  <span class={`home-status${item.active === true ? " home-status-active" : ""}`} />
+                  {String(item.status ?? "In progress")} <time>{String(now?.updated ?? "")}</time>
+                </div>
               </div>
-            </div>
-            <div class="home-now-item">
-              <h3>Exploring agent architecture / context engineering</h3>
-              <p>
-                Notes on tools, memory, orchestration, and reliable context for real-world
-                applications.
-              </p>
-              <div>
-                <span class="home-status" />
-                Research <time>SEP 19, 2026</time>
-              </div>
-            </div>
+            ))}
           </aside>
         </section>
 
