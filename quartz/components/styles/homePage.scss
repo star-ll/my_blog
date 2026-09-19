@@ -182,11 +182,11 @@
 
 body:is(
   [data-slug="index"],
-  [data-slug="site-notes"],
-  [data-slug="site-lab"],
-  [data-slug="site-deco"],
-  [data-slug="site-about"],
-  [data-slug="site-now"]
+  [data-slug="site/notes"],
+  [data-slug="site/lab"],
+  [data-slug="site/lab/deco"],
+  [data-slug="site/about"],
+  [data-slug="site/now"]
 ) {
   --home-blue: #1268e8;
   --home-ink: var(--dark);
@@ -642,7 +642,7 @@ body:is(
 }
 
 @media all and (max-width: 1000px) {
-  body:is([data-slug="index"], [data-slug^="site-"]) #quartz-body {
+  body:is([data-slug="index"], [data-slug^="site/"]) #quartz-body {
     padding: 0 28px;
   }
   .home-hero,
@@ -666,7 +666,7 @@ body:is(
 }
 
 @media all and ($mobile) {
-  body:is([data-slug="index"], [data-slug^="site-"]) #quartz-body {
+  body:is([data-slug="index"], [data-slug^="site/"]) #quartz-body {
     padding: 0 18px;
   }
   .home-nav {
@@ -736,5 +736,64 @@ body:is(
       border-left: 0;
       border-top: 1px solid var(--lightgray);
     }
+  }
+}
+
+// Paper blueprint: decoration is isolated from document flow and text.
+.home-page .blueprint-hero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  > :not(.blueprint-hero-image) {
+    position: relative;
+    z-index: 1;
+  }
+  > .blueprint-hero-image {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    margin: 0;
+    border: 0;
+    border-radius: 0;
+    object-fit: cover;
+    object-position: center right;
+    pointer-events: none;
+    user-select: none;
+    mix-blend-mode: multiply;
+    mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
+  }
+}
+.home-page .about-hero {
+  padding: 76px 0 55px;
+  min-height: 300px;
+  h1 {
+    font-size: clamp(3.5rem, 8vw, 6.5rem);
+    line-height: 1;
+    letter-spacing: -0.065em;
+    span {
+      color: var(--home-blue);
+    }
+  }
+}
+:root[saved-theme="dark"] .home-page .blueprint-hero > .blueprint-hero-image {
+  filter: invert(1) hue-rotate(180deg);
+  mix-blend-mode: screen;
+  opacity: 0.35;
+}
+@media (max-width: 800px) {
+  .home-page .blueprint-hero > .blueprint-hero-image {
+    opacity: 0.4;
+    object-position: 65% center;
+  }
+  .home-page .about-hero {
+    min-height: 0;
+    padding: 44px 0 36px;
+  }
+  :root[saved-theme="dark"] .home-page .blueprint-hero > .blueprint-hero-image {
+    opacity: 0.2;
   }
 }

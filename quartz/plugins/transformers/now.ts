@@ -1,4 +1,5 @@
 import type { Root, RootContent, PhrasingContent } from "mdast"
+import { sitePages } from "../../components/pages/sitePages"
 import { QuartzTransformerPlugin } from "../types"
 
 export interface NowItem {
@@ -40,7 +41,7 @@ export const NowContent: QuartzTransformerPlugin = () => ({
   markdownPlugins() {
     return [
       () => (tree, file) => {
-        if (file.data.slug === "site-now") file.data.nowItems = parseNow(tree)
+        if (file.data.slug === sitePages.now) file.data.nowItems = parseNow(tree)
       },
     ]
   },

@@ -1,6 +1,7 @@
 import { resolveRelative } from "../../util/path"
 import { QuartzComponent } from "../types"
 import SiteNav from "./SiteNav"
+import HeroBackground from "./HeroBackground"
 import { isSitePage } from "./sitePages"
 import { Date as ArticleDate } from "../Date"
 
@@ -10,6 +11,7 @@ const NotesPage: QuartzComponent = (props) => {
       file.slug &&
       !isSitePage(file.slug) &&
       !file.slug.startsWith("site-") &&
+      !file.slug.startsWith("site/") &&
       !["index", "writing", "now", "lab"].includes(file.slug) &&
       !file.slug.startsWith("lab/") &&
       !file.slug.startsWith("tags/") &&
@@ -25,7 +27,8 @@ const NotesPage: QuartzComponent = (props) => {
   return (
     <article class="home-page notes-page">
       <SiteNav {...props} />
-      <section class="notes-hero">
+      <section class="notes-hero blueprint-hero">
+        <HeroBackground slug={props.fileData.slug!} page="notes" />
         <p class="home-kicker">LEARN / EXPLORE / WRITE</p>
         <h1>
           Notes<span>.</span>
