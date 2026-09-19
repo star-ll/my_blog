@@ -1,5 +1,41 @@
 @use "../../styles/variables.scss" as *;
 
+.site-content-heading {
+  display: block;
+  padding: 64px 0 38px;
+  border-bottom: 1px solid var(--lightgray);
+  h1 {
+    font-size: clamp(3rem, 7vw, 5.5rem);
+    letter-spacing: -0.05em;
+    margin-bottom: 20px;
+  }
+  > p:last-child {
+    color: var(--home-muted);
+    max-width: 720px;
+    line-height: 1.9;
+  }
+}
+.site-content-body {
+  max-width: 780px;
+  margin: 44px auto 90px;
+  line-height: 1.9;
+  h2 {
+    margin-top: 44px;
+    font-size: 1.45rem;
+  }
+  h3 {
+    margin-top: 30px;
+  }
+  a.internal,
+  a.external {
+    color: var(--home-blue);
+    background: transparent;
+  }
+  li {
+    margin-bottom: 10px;
+  }
+}
+
 .home-nav a[aria-current="page"] {
   color: var(--home-blue);
 }
@@ -138,8 +174,14 @@
   }
 }
 
-body[data-slug="index"],
-body[data-slug="writing"] {
+body:is(
+  [data-slug="index"],
+  [data-slug="site-notes"],
+  [data-slug="site-lab"],
+  [data-slug="site-deco"],
+  [data-slug="site-about"],
+  [data-slug="site-now"]
+) {
   --home-blue: #1268e8;
   --home-ink: var(--dark);
   --home-muted: color-mix(in srgb, var(--darkgray) 76%, transparent);
@@ -594,7 +636,7 @@ body[data-slug="writing"] {
 }
 
 @media all and (max-width: 1000px) {
-  body:is([data-slug="index"], [data-slug="writing"]) #quartz-body {
+  body:is([data-slug="index"], [data-slug^="site-"]) #quartz-body {
     padding: 0 28px;
   }
   .home-hero,
@@ -618,19 +660,23 @@ body[data-slug="writing"] {
 }
 
 @media all and ($mobile) {
-  body:is([data-slug="index"], [data-slug="writing"]) #quartz-body {
+  body:is([data-slug="index"], [data-slug^="site-"]) #quartz-body {
     padding: 0 18px;
   }
   .home-nav {
     min-height: 68px;
+    flex-wrap: wrap;
+    padding: 18px 0;
+    gap: 18px;
     .home-mantra,
-    nav > a:nth-of-type(3),
-    nav > a:nth-of-type(4),
+    .home-nav-github,
     .home-nav-divider {
       display: none;
     }
     nav {
-      gap: 16px;
+      width: 100%;
+      justify-content: space-between;
+      gap: 10px;
     }
   }
   .home-hero {

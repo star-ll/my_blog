@@ -1,5 +1,6 @@
 import { PageLayout, SharedLayout } from "./quartz/cfg"
 import * as Component from "./quartz/components"
+import { isSitePage } from "./quartz/components/pages/sitePages"
 
 // components shared across all pages
 export const sharedPageComponents: SharedLayout = {
@@ -19,29 +20,29 @@ export const defaultContentPageLayout: PageLayout = {
   beforeBody: [
     Component.ConditionalRender({
       component: Component.Breadcrumbs(),
-      condition: (page) => !["index", "writing"].includes(page.fileData.slug ?? ""),
+      condition: (page) => !isSitePage(page.fileData.slug),
     }),
     Component.ConditionalRender({
       component: Component.ArticleTitle(),
-      condition: (page) => !["index", "writing"].includes(page.fileData.slug ?? ""),
+      condition: (page) => !isSitePage(page.fileData.slug),
     }),
     Component.ConditionalRender({
       component: Component.ContentMeta(),
-      condition: (page) => !["index", "writing"].includes(page.fileData.slug ?? ""),
+      condition: (page) => !isSitePage(page.fileData.slug),
     }),
     Component.ConditionalRender({
       component: Component.TagList(),
-      condition: (page) => !["index", "writing"].includes(page.fileData.slug ?? ""),
+      condition: (page) => !isSitePage(page.fileData.slug),
     }),
   ],
   left: [
     Component.ConditionalRender({
       component: Component.PageTitle(),
-      condition: (page) => !["index", "writing"].includes(page.fileData.slug ?? ""),
+      condition: (page) => !isSitePage(page.fileData.slug),
     }),
     Component.ConditionalRender({
       component: Component.MobileOnly(Component.Spacer()),
-      condition: (page) => !["index", "writing"].includes(page.fileData.slug ?? ""),
+      condition: (page) => !isSitePage(page.fileData.slug),
     }),
     Component.ConditionalRender({
       component: Component.Flex({
@@ -54,25 +55,25 @@ export const defaultContentPageLayout: PageLayout = {
           { Component: Component.ReaderMode() },
         ],
       }),
-      condition: (page) => !["index", "writing"].includes(page.fileData.slug ?? ""),
+      condition: (page) => !isSitePage(page.fileData.slug),
     }),
     Component.ConditionalRender({
       component: Component.Explorer(),
-      condition: (page) => !["index", "writing"].includes(page.fileData.slug ?? ""),
+      condition: (page) => !isSitePage(page.fileData.slug),
     }),
   ],
   right: [
     Component.ConditionalRender({
       component: Component.Graph(),
-      condition: (page) => !["index", "writing"].includes(page.fileData.slug ?? ""),
+      condition: (page) => !isSitePage(page.fileData.slug),
     }),
     Component.ConditionalRender({
       component: Component.DesktopOnly(Component.TableOfContents()),
-      condition: (page) => !["index", "writing"].includes(page.fileData.slug ?? ""),
+      condition: (page) => !isSitePage(page.fileData.slug),
     }),
     Component.ConditionalRender({
       component: Component.Backlinks(),
-      condition: (page) => !["index", "writing"].includes(page.fileData.slug ?? ""),
+      condition: (page) => !isSitePage(page.fileData.slug),
     }),
   ],
 }
