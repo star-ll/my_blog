@@ -10,7 +10,7 @@ export default function HeroBackground({
   return (
     <img
       class="blueprint-hero-image"
-      src={resolveRelative(slug, `site/img/${page}-blueprint.png` as FullSlug)}
+      src={resolveRelative(slug, `static/blueprints/${page}-blueprint.png` as FullSlug)}
       alt=""
       aria-hidden="true"
       width="1935"
